@@ -8,7 +8,7 @@ async function expressLoader(app) {
     cors({
       origin: CONFIG.CLIENT_URL,
       credentials: true,
-    })
+    }),
   );
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));

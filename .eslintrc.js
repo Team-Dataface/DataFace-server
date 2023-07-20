@@ -4,13 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "airbnb/hooks",
-    "prettier"
-  ],
+  extends: ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
   overrides: [
     {
       env: {
@@ -25,7 +19,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
-  plugins: ["react", "prettier"],
+  plugins: ["prettier"],
   rules: {
     semi: "warn",
     "no-unused-vars": "warn",
