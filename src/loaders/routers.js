@@ -1,6 +1,6 @@
 const indexRouter = require("../routes/index");
 
-function routerLoader(app) {
+async function routerLoader(app) {
   app.use("/", indexRouter);
 }
 

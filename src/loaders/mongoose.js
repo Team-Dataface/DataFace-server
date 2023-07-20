@@ -3,7 +3,7 @@ const CONFIG = require("../constants/config");
 
 async function mongooseLoader() {
   try {
-    await mongoose.connect(CONFIG.MONGODB_URL, {dbName: "users"});
+    await mongoose.connect(CONFIG.MONGODB_URL);
     console.log("connected to database");
   } catch (error) {
     console.error(error);
