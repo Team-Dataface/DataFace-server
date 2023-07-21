@@ -33,3 +33,15 @@ exports.login = async function (req, res, next) {
     next(error);
   }
 };
+
+exports.logOut = async function (req, res, next) {
+  try {
+    res.clearCookie(req.cookies, { httpOnly: true });
+    res.json({ success: true });
+  } catch (error) {
+    error.message = errors.INTERNAL_SERVER_ERROR.message;
+    error.status = errors.INTERNAL_SERVER_ERROR.status;
+
+    next(error);
+  }
+};
