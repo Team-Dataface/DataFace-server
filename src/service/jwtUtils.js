@@ -7,3 +7,9 @@ exports.sign = function (user) {
     expiresIn: "1h",
   });
 };
+
+exports.refresh = function () {
+  return jwt.sign({}, CONFIG.SECRET_KEY, {
+    expiresIn: "14d",
+  });
+};
