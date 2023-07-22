@@ -9,6 +9,7 @@ const {
 } = require("../service/jwtUtils");
 
 const User = require("../models/User");
+const CONFIG = require("../constants/config");
 
 exports.verifyToken = async function (req, res, next) {
   try {
@@ -34,7 +35,7 @@ exports.verifyToken = async function (req, res, next) {
         const newAccessToken = sign(decodedToken.id);
 
         res.status(201).cookie("accessToken", newAccessToken, {
-          maxAge: 1000 * 60 * 60,
+          maxAge: CONFIG.ONE_HOUR_IN_MS,
           httpOnly: true,
         });
 

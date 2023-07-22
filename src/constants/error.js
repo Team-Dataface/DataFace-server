@@ -1,7 +1,7 @@
 const ERROR_PATTERNS = {
   NOT_AUTHORIZED: {
     status: 401,
-    message: "Unauthorised",
+    message: "Unauthorized",
     messageForUser: "엑세스 권한이 없습니다 :(",
   },
   PAGE_NOT_FOUND: {

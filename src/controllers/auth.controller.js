@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("../service/jwtUtils");
 const errors = require("../constants/error");
+const CONFIG = require("../constants/config");
 
 exports.login = async function (req, res, next) {
   let member;
@@ -21,8 +22,8 @@ exports.login = async function (req, res, next) {
 
     res
       .status(201)
-      .cookie("accessToken", accessToken, {
-        maxAge: 1000 * 60 * 60,
+      .cookie("AccessToken", accessToken, {
+        maxAge: CONFIG.ONE_HOUR_IN_MS,
         httpOnly: true,
       })
       .json({ success: true, userId: member._id });
@@ -36,7 +37,7 @@ exports.login = async function (req, res, next) {
 
 exports.logout = async function (req, res, next) {
   try {
-    res.clearCookie(req.cookies, { httpOnly: true });
+    res.clearCookie("AccessToken", { httpOnly: true });
     res.json({ success: true });
   } catch (error) {
     error.message = errors.INTERNAL_SERVER_ERROR.message;

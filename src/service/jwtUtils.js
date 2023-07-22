@@ -4,7 +4,7 @@ const errors = require("../constants/error");
 const CONFIG = require("../constants/config");
 
 exports.sign = function (user) {
-  return jwt.sign({ id: user._id }, CONFIG.SECRETKEY, {
+  return jwt.sign({ id: user._id }, CONFIG.SECRET_KEY, {
     expiresIn: "1h",
   });
 };
