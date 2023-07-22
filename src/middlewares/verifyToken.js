@@ -4,8 +4,8 @@ const createError = require("http-errors");
 const errors = require("../constants/error");
 const {
   sign,
-  accessTokenVerify,
-  refreshTokenVerify,
+  verifyAccessToken,
+  verifyRefreshToken,
 } = require("../service/jwtUtils");
 
 const User = require("../models/User");
@@ -15,12 +15,12 @@ exports.verifyToken = async function (req, res, next) {
     const { accessToken } = req.cookies;
 
     if (accessToken) {
-      const authResult = accessTokenVerify(accessToken);
+      const authResult = verifyAccessToken(accessToken);
       const decodedToken = jwt.decode(accessToken);
 
       const user = await User.findById(decodedToken.id).lean();
 
-      const refreshResult = await refreshTokenVerify(
+      const refreshResult = await verifyRefreshToken(
         user.refreshToken,
         decodedToken.id,
         next,

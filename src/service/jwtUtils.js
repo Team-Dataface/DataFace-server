@@ -15,7 +15,7 @@ exports.refresh = function () {
   });
 };
 
-exports.accessTokenVerify = function (token) {
+exports.verifyAccessToken = function (token) {
   try {
     const user = jwt.verify(token, CONFIG.SECRET_KEY);
 
@@ -31,7 +31,7 @@ exports.accessTokenVerify = function (token) {
   }
 };
 
-exports.refreshTokenVerify = async function (token, id, next) {
+exports.verifyRefreshToken = async function (token, id, next) {
   try {
     const user = await User.findById(id);
 
