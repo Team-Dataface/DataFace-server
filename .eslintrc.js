@@ -22,6 +22,8 @@ module.exports = {
   plugins: ["prettier"],
   rules: {
     semi: "warn",
+    "no-underscore-dangle": 0,
+    "func-names": "off",
     "no-unused-vars": "warn",
     "no-param-reassign": 0,
   },
