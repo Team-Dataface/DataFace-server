@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
-
-const fieldSchema = new Schema({
+const fieldSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Fieldname is required"],
-    default: "",
   },
   type: {
     type: String,
     required: [true, "Fieldtype is required"],
-    default: "",
   },
 });
 

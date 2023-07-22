@@ -1,36 +1,6 @@
 const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
-
-const documentSchema = new Schema({
-  elements: [
-    {
-      field: {
-        type: Schema.Types.ObjectId,
-        ref: "Field",
-      },
-      value: {
-        type: String,
-        required: [true, "Value is required"],
-        default: "",
-      },
-    },
-  ],
-});
-
-const databaseSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Database name is required"],
-    default: "",
-  },
-  documents: {
-    type: [documentSchema],
-    default: [],
-  },
-});
-
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -41,8 +11,11 @@ const userSchema = new Schema({
     required: [true, "Email is required"],
   },
   databases: {
-    type: [databaseSchema],
-    default: [],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Database",
+  },
+  refreshToken: {
+    type: String,
   },
 });
 
