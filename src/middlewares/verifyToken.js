@@ -1,13 +1,14 @@
 const jwt = require("jsonwebtoken");
-const createError = require("http-errors");
 
-const User = require("../models/User");
+const createError = require("http-errors");
 const errors = require("../constants/error");
 const {
   sign,
   accessTokenVerify,
   refreshTokenVerify,
 } = require("../service/jwtUtils");
+
+const User = require("../models/User");
 
 exports.verifyToken = async function (req, res, next) {
   try {

@@ -34,7 +34,7 @@ exports.login = async function (req, res, next) {
   }
 };
 
-exports.logOut = async function (req, res, next) {
+exports.logout = async function (req, res, next) {
   try {
     res.clearCookie(req.cookies, { httpOnly: true });
     res.json({ success: true });

@@ -18,6 +18,7 @@ exports.refresh = function () {
 exports.accessTokenVerify = function (token) {
   try {
     const user = jwt.verify(token, CONFIG.SECRET_KEY);
+
     return {
       type: true,
       id: user.id,
@@ -33,14 +34,17 @@ exports.accessTokenVerify = function (token) {
 exports.refreshTokenVerify = async function (token, id, next) {
   try {
     const user = await User.findById(id);
+
     if (token === user.refreshToken) {
       try {
         jwt.verify(token, CONFIG.SECRET_KEY);
+
         return true;
       } catch (error) {
         return false;
       }
     }
+
     return false;
   } catch (error) {
     error.message = errors.INTERNAL_SERVER_ERROR.message;
