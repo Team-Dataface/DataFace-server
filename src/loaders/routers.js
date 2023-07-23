@@ -1,11 +1,11 @@
 const indexRouter = require("../routes/index");
 const authRouter = require("../routes/auth");
-const databaseRouter = require("../routes/databases");
+const userRouter = require("../routes/users");
 
 async function routerLoader(app) {
   app.use("/", indexRouter);
   app.use("/auth", authRouter);
-  app.use("/users/:userid/databases", databaseRouter);
+  app.use("/users", userRouter);
 }
 
 module.exports = routerLoader;
