@@ -7,5 +7,6 @@ const router = express.Router();
 router.get("/:userid/databases", databaseController.getAllDatabases);
 
 router.get("/:userid/databases/:databaseid", databaseController.getDatabase);
+router.put("/:userid/databases/:databaseid", databaseController.deleteDatabase);
 
 module.exports = router;

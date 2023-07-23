@@ -47,3 +47,16 @@ exports.getDatabase = async function (req, res, next) {
     res.status(500).json({ error: "Failed to retrieve database" });
   }
 };
+
+exports.deleteDatabase = async function (req, res, next) {
+  const databaseId = req.params.databaseid;
+
+  try {
+    await Database.findByIdAndDelete(databaseId);
+
+    res.status(200).json("Database successfully deleted");
+  } catch (err) {
+    console.error("Error while fetching database", err);
+    res.status(500).json({ error: "Failed to delete database" });
+  }
+};
