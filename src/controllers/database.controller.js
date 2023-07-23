@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 
 const User = require("../models/User");
 const Database = require("../models/Database");
+const Document = require("../models/Document");
+const Field = require("../models/Field");
 
 exports.getAllDatabases = async function (req, res, next) {
   const userId = req.params.userid;
@@ -25,6 +27,55 @@ exports.getAllDatabases = async function (req, res, next) {
   } catch (err) {
     console.error("Error while fetching databases", err);
     res.status(500).json({ error: "Failed to retrieve databases" });
+  }
+};
+
+exports.createDatabase = async function (req, res, next) {
+  const userId = req.params.userid;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const newFields = await Promise.all(
+      req.body.fields.map(async (item) => {
+        const field = await Field.create({ name: item.name, type: item.type });
+
+        return field._id;
+      }),
+    );
+
+    const documentData = {
+      elements: newFields.map((fieldId) => ({
+        field: fieldId,
+        value: "default value",
+      })),
+    };
+
+    const document = await Document.create(documentData);
+    const newDatabase = await Database.create({
+      name: req.body.dbName,
+      createdBy: userId,
+      documents: document._id,
+    });
+
+    await (
+      await newDatabase.populate("createdBy")
+    ).populate({
+      path: "documents",
+      populate: {
+        path: "elements.field",
+        model: "Field",
+      },
+    });
+
+    res.status(201).json({ newDatabase });
+  } catch (error) {
+    console.error("Error while fetching database", error);
+    res.status(500).json({ error: "Failed to retrieve database" });
   }
 };
 
