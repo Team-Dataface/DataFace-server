@@ -10,10 +10,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
   },
-  databases: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Database",
-  },
+  databases: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Database",
+    },
+  ],
   refreshToken: {
     type: String,
   },
