@@ -13,11 +13,11 @@ const CONFIG = require("../constants/config");
 
 exports.verifyToken = async function (req, res, next) {
   try {
-    const { accessToken } = req.cookies;
+    const { AccessToken } = req.cookies;
 
-    if (accessToken) {
-      const authResult = verifyAccessToken(accessToken);
-      const decodedToken = jwt.decode(accessToken);
+    if (AccessToken) {
+      const authResult = verifyAccessToken(AccessToken);
+      const decodedToken = jwt.decode(AccessToken);
 
       const user = await User.findById(decodedToken.id).lean();
 
@@ -34,7 +34,7 @@ exports.verifyToken = async function (req, res, next) {
 
         const newAccessToken = sign(decodedToken.id);
 
-        res.status(201).cookie("accessToken", newAccessToken, {
+        res.status(201).cookie("AccessToken", newAccessToken, {
           maxAge: CONFIG.ONE_HOUR_IN_MS,
           httpOnly: true,
         });
