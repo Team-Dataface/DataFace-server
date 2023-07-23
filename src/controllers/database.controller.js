@@ -56,23 +56,6 @@ exports.createDatabase = async function (req, res, next) {
     };
 
     const document = await Document.create(documentData);
-    const newDatabase = await Database.create({
-      name: req.body.dbName,
-      createdBy: userId,
-      documents: document._id,
-    });
-
-    await (
-      await newDatabase.populate("createdBy")
-    ).populate({
-      path: "documents",
-      populate: {
-        path: "elements.field",
-        model: "Field",
-      },
-    });
-
-    res.status(201).json({ newDatabase });
   } catch (error) {
     console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to retrieve database" });
