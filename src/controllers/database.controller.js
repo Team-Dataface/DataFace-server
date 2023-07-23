@@ -1,4 +1,6 @@
 /* eslint-disable consistent-return */
+const mongoose = require("mongoose");
+
 const User = require("../models/User");
 const Database = require("../models/Database");
 
@@ -12,7 +14,9 @@ exports.getAllDatabases = async function (req, res, next) {
       return res.status(404).json({ error: "User Not Found" });
     }
 
-    const databases = await Database.find({ createdBy: user })
+    const databases = await Database.find({
+      "createdBy._id": new mongoose.Types.ObjectId(userId),
+    })
       .populate("createdBy")
       .populate("documents")
       .exec();
