@@ -23,3 +23,23 @@ exports.getAllDatabases = async function (req, res, next) {
     res.status(500).json({ error: "Failed to retrieve databases" });
   }
 };
+
+exports.getDatabase = async function (req, res, next) {
+  const databaseId = req.params.databaseid;
+
+  try {
+    const database = await Database.findById(databaseId)
+      .populate("createdBy")
+      .populate("documents")
+      .exec();
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    res.status(200).json({ database });
+  } catch (err) {
+    console.error("Error while fetching database", err);
+    res.status(500).json({ error: "Failed to retrieve database" });
+  }
+};
