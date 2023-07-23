@@ -3,6 +3,17 @@ const jwt = require("../service/jwtUtils");
 const errors = require("../constants/error");
 const CONFIG = require("../constants/config");
 
+exports.check = async function (req, res, next) {
+  if (!req.user) {
+    const error = new Error(errors.NOT_AUTHORIZED.message);
+    error.status = errors.NOT_AUTHORIZED.status;
+
+    next(error);
+  }
+
+  res.status(200).json({ success: true, userId: req.user });
+};
+
 exports.login = async function (req, res, next) {
   let member;
 
@@ -28,7 +39,7 @@ exports.login = async function (req, res, next) {
       })
       .json({ success: true, userId: member._id });
   } catch (error) {
-    error.message = errors.INTERNAL_SERVER_ERROR.message;
+    error.message = errors.NOT_AUTHORIZED.message;
     error.status = errors.INTERNAL_SERVER_ERROR.status;
 
     next(error);
