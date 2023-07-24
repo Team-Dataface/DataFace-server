@@ -40,42 +40,26 @@ exports.createDatabase = async function (req, res, next) {
       return res.status(404).json({ error: "User Not Found" });
     }
 
-    const newFields = await Promise.all(
-      req.body.fields.map(async (item) => {
-        const field = await Field.create({ name: item.name, type: item.type });
-
-        return field._id;
-      }),
-    );
-
-    const documentData = {
-      elements: newFields.map((fieldId) => ({
-        field: fieldId,
-        value: "default value",
-      })),
-    };
-
-    const document = await Document.create(documentData);
     const newDatabase = await Database.create({
       name: req.body.dbName,
       createdBy: userId,
-      documents: document._id,
     });
 
-    await (
-      await newDatabase.populate("createdBy")
-    ).populate({
-      path: "documents",
-      populate: {
-        path: "elements.field",
-        model: "Field",
-      },
-    });
+    await Promise.all(
+      req.body.fields.map(async (item) => {
+        const field = await Field.create({ name: item.name, type: item.type });
+        newDatabase.fields.push(field);
 
-    res.status(201).json({ newDatabase });
+        return field;
+      }),
+    );
+
+    await user.save();
+
+    res.status(201).json({ newDatabase, user });
   } catch (error) {
     console.error("Error while fetching database", error);
-    res.status(500).json({ error: "Failed to retrieve database" });
+    res.status(500).json({ error: "Failed to create database" });
   }
 };
 
