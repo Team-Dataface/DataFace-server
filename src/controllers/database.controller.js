@@ -54,6 +54,7 @@ exports.createDatabase = async function (req, res, next) {
       }),
     );
 
+    user.databases.push(newDatabase);
     await user.save();
 
     res.status(201).json({ newDatabase, user });
