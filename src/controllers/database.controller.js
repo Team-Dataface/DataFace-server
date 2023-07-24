@@ -48,39 +48,6 @@ exports.createDatabase = async function (req, res, next) {
       }),
     );
 
-    await user.save();
-
-    res.status(201).json({ newDatabase, user });
-  } catch (error) {
-    console.error("Error while fetching database", error);
-    res.status(500).json({ error: "Failed to retrieve database" });
-  }
-};
-
-exports.createDatabase = async function (req, res, next) {
-  const userId = req.params.userid;
-
-  try {
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User Not Found" });
-    }
-
-    const newDatabase = await Database.create({
-      name: req.body.dbName,
-      createdBy: userId,
-    });
-
-    await Promise.all(
-      req.body.fields.map(async (item) => {
-        const field = await Field.create({ name: item.name, type: item.type });
-        newDatabase.fields.push(field);
-
-        return field;
-      }),
-    );
-
     user.databases.push(newDatabase);
     await user.save();
 
