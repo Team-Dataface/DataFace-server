@@ -1,20 +1,19 @@
 const mongoose = require("mongoose");
+const { fieldSchema } = require("./Field");
+const { documentSchema } = require("./Document");
 
 const databaseSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Database name is required"],
-  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  documents: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Document",
-    },
-  ],
+  name: {
+    type: String,
+    required: [true, "Database name is required"],
+  },
+  documents: [documentSchema],
+  fields: [fieldSchema],
 });
 
-module.exports = mongoose.model("Database", databaseSchema);
+exports.databaseSchema = databaseSchema;
+exports.Database = mongoose.model("Database", databaseSchema);

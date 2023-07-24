@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { databaseSchema } = require("./Database");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,15 +11,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
   },
-  databases: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Database",
-    },
-  ],
   refreshToken: {
     type: String,
   },
+  databases: [databaseSchema],
 });
 
 module.exports = mongoose.model("User", userSchema);
