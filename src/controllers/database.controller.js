@@ -2,9 +2,9 @@
 const mongoose = require("mongoose");
 
 const User = require("../models/User");
-const Database = require("../models/Database");
-const Document = require("../models/Document");
-const Field = require("../models/Field");
+const { Database } = require("../models/Database");
+const { Document } = require("../models/Document");
+const { Field } = require("../models/Field");
 
 exports.getAllDatabases = async function (req, res, next) {
   const userId = req.params.userid;
