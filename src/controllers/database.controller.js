@@ -2,7 +2,8 @@
 const mongoose = require("mongoose");
 
 const User = require("../models/User");
-const Database = require("../models/Database");
+const { Database } = require("../models/Database");
+const { Field } = require("../models/Field");
 
 exports.getAllDatabases = async function (req, res, next) {
   const userId = req.params.userid;
@@ -25,6 +26,40 @@ exports.getAllDatabases = async function (req, res, next) {
   } catch (err) {
     console.error("Error while fetching databases", err);
     res.status(500).json({ error: "Failed to retrieve databases" });
+  }
+};
+
+exports.createDatabase = async function (req, res, next) {
+  const userId = req.params.userid;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const newDatabase = await Database.create({
+      name: req.body.dbName,
+      createdBy: userId,
+    });
+
+    await Promise.all(
+      req.body.fields.map(async (item) => {
+        const field = await Field.create({ name: item.name, type: item.type });
+        newDatabase.fields.push(field);
+
+        return field;
+      }),
+    );
+
+    user.databases.push(newDatabase);
+    await user.save();
+
+    res.status(201).json({ newDatabase, user });
+  } catch (error) {
+    console.error("Error while fetching database", error);
+    res.status(500).json({ error: "Failed to create database" });
   }
 };
 
