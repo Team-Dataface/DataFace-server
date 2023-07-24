@@ -10,9 +10,11 @@ const documentSchema = new mongoose.Schema({
       value: {
         type: String,
         required: [true, "Value is required"],
+        default: "",
       },
     },
   ],
 });
 
-module.exports = mongoose.model("Document", documentSchema);
+exports.documentSchema = documentSchema;
+exports.Document = mongoose.model("Document", documentSchema);

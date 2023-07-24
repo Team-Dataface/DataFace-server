@@ -11,4 +11,5 @@ const fieldSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Field", fieldSchema);
+exports.fieldSchema = fieldSchema;
+exports.Field = mongoose.model("Field", fieldSchema);
