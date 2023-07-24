@@ -16,4 +16,9 @@ router.get(
   documentController.getAllDocuments,
 );
 
+router.post(
+  "/:userid/databases/:databaseid/documents",
+  documentController.createDocument,
+);
+
 module.exports = router;
