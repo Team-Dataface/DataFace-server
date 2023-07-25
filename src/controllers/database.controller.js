@@ -48,40 +48,8 @@ exports.createDatabase = async function (req, res, next) {
       }),
     );
 
-    await user.save();
-
-    res.status(201).json({ newDatabase, user });
-  } catch (error) {
-    console.error("Error while fetching database", error);
-    res.status(500).json({ error: "Failed to retrieve database" });
-  }
-};
-
-exports.createDatabase = async function (req, res, next) {
-  const userId = req.params.userid;
-
-  try {
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User Not Found" });
-    }
-
-    const newDatabase = await Database.create({
-      name: req.body.dbName,
-      createdBy: userId,
-    });
-
-    await Promise.all(
-      req.body.fields.map(async (item) => {
-        const field = await Field.create({ name: item.name, type: item.type });
-        newDatabase.fields.push(field);
-
-        return field;
-      }),
-    );
-
     user.databases.push(newDatabase);
+    await newDatabase.save();
     await user.save();
 
     res.status(201).json({ newDatabase, user });
@@ -106,8 +74,8 @@ exports.getDatabase = async function (req, res, next) {
     }
 
     res.status(200).json({ database });
-  } catch (err) {
-    console.error("Error while fetching database", err);
+  } catch (error) {
+    console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to retrieve database" });
   }
 };
@@ -119,8 +87,8 @@ exports.deleteDatabase = async function (req, res, next) {
     await Database.findByIdAndDelete(databaseId);
 
     res.status(200).json("Database successfully deleted");
-  } catch (err) {
-    console.error("Error while fetching database", err);
+  } catch (error) {
+    console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to delete database" });
   }
 };
