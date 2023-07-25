@@ -2,6 +2,7 @@
 const User = require("../models/User");
 const { Database } = require("../models/Database");
 const { Field } = require("../models/Field");
+const { Document } = require("../models/Document");
 
 exports.getAllDatabases = async function (req, res, next) {
   const userId = req.params.userid;
@@ -81,10 +82,35 @@ exports.getDatabase = async function (req, res, next) {
 };
 
 exports.deleteDatabase = async function (req, res, next) {
+  const userId = req.params.userid;
   const databaseId = req.params.databaseid;
 
   try {
-    await Database.findByIdAndDelete(databaseId);
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const deletedDatabase = await Database.findByIdAndDelete(databaseId);
+
+    const documentIds = [];
+    const fieldIds = [];
+
+    deletedDatabase.documents.forEach(function (document) {
+      documentIds.push(document._id);
+    });
+
+    deletedDatabase.fields.forEach(function (field) {
+      fieldIds.push(field._id);
+    });
+
+    await Document.deleteMany({ _id: { $in: documentIds } });
+    await Field.deleteMany({ _id: { $in: fieldIds } });
+
+    user.databases = user.databases.filter(function (database) {
+      return database.id !== databaseId;
+    });
 
     res.status(200).json("Database successfully deleted");
   } catch (error) {
