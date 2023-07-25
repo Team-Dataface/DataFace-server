@@ -13,8 +13,8 @@ exports.getAllDocuments = async function (req, res, next) {
     const { documents } = database;
 
     res.status(200).json({ documents });
-  } catch (err) {
-    console.error("Error while fetching database", err);
+  } catch (error) {
+    console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to Get databases" });
   }
 };
@@ -47,8 +47,8 @@ exports.createDocument = async function (req, res, next) {
     await database.save();
 
     res.status(200).json({ database });
-  } catch (err) {
-    console.error("Error while fetching database", err);
+  } catch (error) {
+    console.error("Error while creating documents", error);
     res.status(500).json({ error: "Failed to create document" });
   }
 };
