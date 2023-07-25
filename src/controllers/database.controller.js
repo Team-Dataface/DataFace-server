@@ -112,6 +112,8 @@ exports.deleteDatabase = async function (req, res, next) {
       return database.id !== databaseId;
     });
 
+    await user.save();
+
     res.status(200).json("Database successfully deleted");
   } catch (error) {
     console.error("Error while fetching database", error);
