@@ -40,15 +40,15 @@ exports.createDatabase = async function (req, res, next) {
       createdBy: userId,
     });
 
-    await Promise.all(
+    const fields = await Promise.all(
       req.body.fields.map(async (item) => {
         const field = await Field.create({ name: item.name, type: item.type });
-        newDatabase.fields.push(field);
 
         return field;
       }),
     );
 
+    fields.forEach((field) => newDatabase.fields.push(field));
     user.databases.push(newDatabase);
     await newDatabase.save();
     await user.save();

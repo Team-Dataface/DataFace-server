@@ -11,8 +11,9 @@ exports.getAllDocuments = async function (req, res, next) {
       .populate("fields");
 
     const { documents } = database;
+    const { fields } = database;
 
-    res.status(200).json({ documents });
+    res.status(200).json({ documents, fields });
   } catch (error) {
     console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to Get databases" });
