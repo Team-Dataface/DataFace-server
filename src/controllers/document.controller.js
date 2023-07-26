@@ -11,8 +11,9 @@ exports.getAllDocuments = async function (req, res, next) {
       .populate("fields");
 
     const { documents } = database;
+    const { fields } = database;
 
-    res.status(200).json({ documents });
+    res.status(200).json({ documents, fields });
   } catch (error) {
     console.error("Error while fetching database", error);
     res.status(500).json({ error: "Failed to Get databases" });
@@ -27,18 +28,20 @@ exports.createDocument = async function (req, res, next) {
   try {
     const database = await Database.findById(databaseId).populate("fields");
 
-    await Promise.all(
+    const newFields = await Promise.all(
       fields.map(async (item) => {
         const field = await Field.findById(item.field_id);
 
-        documentData.elements.push({
+        const newField = {
           field: field._id,
           value: item.value,
-        });
+        };
 
-        return field;
+        return newField;
       }),
     );
+
+    newFields.forEach((field) => documentData.elements.push(field));
 
     const document = await Document.create(documentData);
 
