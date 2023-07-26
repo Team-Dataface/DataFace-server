@@ -28,18 +28,20 @@ exports.createDocument = async function (req, res, next) {
   try {
     const database = await Database.findById(databaseId).populate("fields");
 
-    await Promise.all(
+    const newFields = await Promise.all(
       fields.map(async (item) => {
         const field = await Field.findById(item.field_id);
 
-        documentData.elements.push({
+        const newField = {
           field: field._id,
           value: item.value,
-        });
+        };
 
-        return field;
+        return newField;
       }),
     );
+
+    newFields.forEach((field) => documentData.elements.push(field));
 
     const document = await Document.create(documentData);
 
