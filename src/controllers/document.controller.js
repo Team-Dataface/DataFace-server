@@ -66,7 +66,7 @@ exports.createDocument = async function (req, res, next) {
   }
 };
 
-exports.editDocument = async function (req, res, next) {
+exports.editDocuments = async function (req, res, next) {
   const userId = req.params.userid;
   const databaseId = req.params.databaseid;
   const updates = req.body;

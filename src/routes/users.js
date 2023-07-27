@@ -24,7 +24,7 @@ router.post(
 );
 router.put(
   "/:userid/databases/:databaseid/documents",
-  documentController.editDocument,
+  documentController.editDocuments,
 );
 
 router.get(
