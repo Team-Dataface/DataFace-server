@@ -27,4 +27,9 @@ router.put(
   documentController.editDocument,
 );
 
+router.get(
+  "/:userid/databases/:databaseid/documents/:documentid",
+  documentController.getDocument,
+);
+
 module.exports = router;
