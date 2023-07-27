@@ -18,10 +18,13 @@ router.get(
   "/:userid/databases/:databaseid/documents",
   documentController.getAllDocuments,
 );
-
 router.post(
   "/:userid/databases/:databaseid/documents",
   documentController.createDocument,
+);
+router.put(
+  "/:userid/databases/:databaseid/documents",
+  documentController.editDocument,
 );
 
 module.exports = router;
