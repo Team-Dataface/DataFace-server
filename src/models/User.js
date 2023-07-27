@@ -15,6 +15,7 @@ const documentSchema = new Schema({
       },
       fieldValue: {
         type: String,
+        required: true,
       },
       xCoordinate: {
         type: Number,
