@@ -59,7 +59,7 @@ exports.createDocument = async function (req, res, next) {
 
     await user.save();
 
-    res.status(201).json({ newDocument });
+    res.status(201).json({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create document" });
@@ -104,7 +104,7 @@ exports.editDocument = async function (req, res, next) {
 
     await user.save();
 
-    res.status(200).json({ database });
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to edit document" });
