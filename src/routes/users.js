@@ -31,5 +31,9 @@ router.get(
   "/:userid/databases/:databaseid/documents/:documentid",
   documentController.getDocument,
 );
+router.put(
+  "/:userid/databases/:databaseid/documents/:documentid",
+  documentController.editDocument,
+);
 
 module.exports = router;

@@ -107,7 +107,7 @@ exports.editDocuments = async function (req, res, next) {
     res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to edit document" });
+    res.status(500).json({ error: "Failed to edit documents" });
   }
 };
 
@@ -139,5 +139,49 @@ exports.getDocument = async function (req, res, next) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to get document" });
+  }
+};
+
+exports.editDocument = async function (req, res, next) {
+  const userId = req.params.userid;
+  const databaseId = req.params.databaseid;
+  const documentId = req.params.documentid;
+  const { fields } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const database = user.databases.id(databaseId);
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    const document = database.documents.id(documentId);
+
+    if (!document) {
+      return res.status(404).json({ error: "Document Not Found" });
+    }
+
+    fields.forEach(({ fieldId, fieldValue }) => {
+      const field = document.fields.id(fieldId);
+
+      if (!field) {
+        return res.status(404).json({ error: "Field Not Found" });
+      }
+
+      field.fieldValue = fieldValue;
+    });
+
+    await user.save();
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to edit document" });
   }
 };
