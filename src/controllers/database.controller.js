@@ -49,7 +49,7 @@ exports.createDatabase = async function (req, res, next) {
 
     await user.save();
 
-    res.status(201).json({ success: true });
+    res.status(201).json({ success: true, newDatabase });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create database" });

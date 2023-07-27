@@ -11,7 +11,14 @@ exports.check = async function (req, res, next) {
     next(error);
   }
 
-  res.status(200).json({ success: true, userId: req.user });
+  const user = await User.findById(req.user);
+
+  const userInfo = {
+    username: user.username,
+    userId: req.user,
+  };
+
+  res.status(200).json({ success: true, userInfo });
 };
 
 exports.login = async function (req, res, next) {
@@ -29,7 +36,12 @@ exports.login = async function (req, res, next) {
     const accessToken = jwt.sign(member);
     const refreshToken = jwt.refresh();
 
-    await User.findByIdAndUpdate(member._id, { refreshToken });
+    const user = await User.findByIdAndUpdate(member._id, { refreshToken });
+
+    const userInfo = {
+      username: user.username,
+      userId: member._id,
+    };
 
     res
       .status(201)
@@ -37,7 +49,7 @@ exports.login = async function (req, res, next) {
         maxAge: CONFIG.ONE_HOUR_IN_MS,
         httpOnly: true,
       })
-      .json({ success: true, userId: member._id });
+      .json({ success: true, userInfo });
   } catch (error) {
     error.message = errors.NOT_AUTHORIZED.message;
     error.status = errors.INTERNAL_SERVER_ERROR.status;
