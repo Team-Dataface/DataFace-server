@@ -30,7 +30,7 @@ exports.getAllDocuments = async function (req, res, next) {
 exports.createDocument = async function (req, res, next) {
   const userId = req.params.userid;
   const databaseId = req.params.databaseid;
-  const { fields } = req.body;
+  const fields = req.body;
 
   try {
     const user = await User.findById(userId);
