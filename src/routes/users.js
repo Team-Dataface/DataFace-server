@@ -35,5 +35,9 @@ router.put(
   "/:userid/databases/:databaseid/documents/:documentid",
   documentController.editDocument,
 );
+router.delete(
+  "/:userid/databases/:databaseid/documents/:documentid",
+  documentController.deleteDocument,
+);
 
 module.exports = router;

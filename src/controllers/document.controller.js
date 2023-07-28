@@ -185,3 +185,32 @@ exports.editDocument = async function (req, res, next) {
     res.status(500).json({ error: "Failed to edit document" });
   }
 };
+
+exports.deleteDocument = async function (req, res, next) {
+  const userId = req.params.userid;
+  const databaseId = req.params.databaseid;
+  const documentId = req.params.documentid;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const database = user.databases.id(databaseId);
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    database.documents.pull(documentId);
+
+    await user.save();
+
+    res.status(200).json("Document deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete document" });
+  }
+};
