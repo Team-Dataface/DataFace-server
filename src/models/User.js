@@ -58,7 +58,7 @@ const userSchema = new Schema({
 documentSchema.pre("validate", function (next) {
   this.fields = this.fields.map((field) => ({
     ...field,
-    fieldValue: field.fieldValue || "default",
+    fieldValue: field.fieldValue || " ",
   }));
   next();
 });
