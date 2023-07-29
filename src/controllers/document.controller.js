@@ -167,15 +167,25 @@ exports.editDocument = async function (req, res, next) {
       return res.status(404).json({ error: "Document Not Found" });
     }
 
-    fields.forEach(({ fieldId, fieldValue }) => {
-      const field = document.fields.id(fieldId);
+    fields.forEach(
+      ({ fieldId, fieldValue, fieldName, xCoordinate, yCoordinate }) => {
+        const field = document.fields.id(fieldId);
 
-      if (!field) {
-        return res.status(404).json({ error: "Field Not Found" });
-      }
+        if (!field) {
+          return res.status(404).json({ error: "Field Not Found" });
+        }
 
-      field.fieldValue = fieldValue;
-    });
+        field.fieldValue = fieldValue;
+        database.documents.forEach((doc) => {
+          const targetField = doc.fields.find(
+            (fld) => fld.fieldName === fieldName,
+          );
+
+          targetField.xCoordinate = xCoordinate;
+          targetField.yCoordinate = yCoordinate;
+        });
+      },
+    );
 
     await user.save();
 
