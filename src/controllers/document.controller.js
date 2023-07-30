@@ -172,8 +172,8 @@ exports.editDocument = async function (req, res, next) {
     }
 
     fields.forEach(
-      ({ fieldId, fieldValue, fieldName, xCoordinate, yCoordinate }) => {
-        const field = document.fields.id(fieldId);
+      ({ _id, fieldValue, fieldName, xCoordinate, yCoordinate }) => {
+        const field = document.fields.id(_id);
 
         if (!field) {
           return res.status(404).json({ error: "Field Not Found" });
