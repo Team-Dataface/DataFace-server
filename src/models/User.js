@@ -37,6 +37,13 @@ const databaseSchema = new Schema({
     required: true,
   },
   documents: [documentSchema],
+  relatedDatabases: [
+    {
+      primaryFieldId: Schema.Types.ObjectId,
+      foreignDbId: Schema.Types.ObjectId,
+      foreignFieldId: Schema.Types.ObjectId,
+    },
+  ],
 });
 
 const userSchema = new Schema({
