@@ -45,11 +45,15 @@ exports.createDocument = async function (req, res, next) {
       return res.status(404).json({ error: "Database Not Found" });
     }
 
-    const fieldsArray = fields.map(({ fieldName, fieldType, fieldValue }) => ({
-      fieldName,
-      fieldType,
-      fieldValue,
-    }));
+    const fieldsArray = fields.map(
+      ({ fieldName, fieldType, fieldValue, xCoordinate, yCoordinate }) => ({
+        fieldName,
+        fieldType,
+        fieldValue,
+        xCoordinate,
+        yCoordinate,
+      }),
+    );
 
     const newDocument = await database.documents.create({
       fields: fieldsArray,
