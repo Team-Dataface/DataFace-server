@@ -2,6 +2,7 @@ const express = require("express");
 
 const databaseController = require("../controllers/database.controller");
 const documentController = require("../controllers/document.controller");
+const relationshipController = require("../controllers/relationship.controller");
 
 const router = express.Router();
 
@@ -38,6 +39,11 @@ router.put(
 router.delete(
   "/:userid/databases/:databaseid/documents/:documentid",
   documentController.deleteDocument,
+);
+
+router.post(
+  "/:userid/databases/:databaseid/relationships",
+  relationshipController.createRelationship,
 );
 
 module.exports = router;
