@@ -59,6 +59,11 @@ const documentSchema = new Schema({
         required: true,
         default: 0,
       },
+      rows: {
+        type: Number,
+        required: true,
+        default: 1,
+      },
     },
   ],
 });

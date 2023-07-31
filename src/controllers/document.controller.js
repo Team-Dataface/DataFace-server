@@ -46,12 +46,20 @@ exports.createDocument = async function (req, res, next) {
     }
 
     const fieldsArray = fields.map(
-      ({ fieldName, fieldType, fieldValue, xCoordinate, yCoordinate }) => ({
+      ({
         fieldName,
         fieldType,
         fieldValue,
         xCoordinate,
         yCoordinate,
+        rows,
+      }) => ({
+        fieldName,
+        fieldType,
+        fieldValue,
+        xCoordinate,
+        yCoordinate,
+        rows,
       }),
     );
 
@@ -172,7 +180,7 @@ exports.editDocument = async function (req, res, next) {
     }
 
     fields.forEach(
-      ({ _id, fieldValue, fieldName, xCoordinate, yCoordinate }) => {
+      ({ _id, fieldValue, fieldName, xCoordinate, yCoordinate, rows }) => {
         const field = document.fields.id(_id);
 
         if (!field) {
@@ -187,6 +195,7 @@ exports.editDocument = async function (req, res, next) {
 
           targetField.xCoordinate = xCoordinate;
           targetField.yCoordinate = yCoordinate;
+          targetField.rows = rows;
         });
       },
     );
