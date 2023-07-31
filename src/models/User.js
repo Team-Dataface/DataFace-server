@@ -2,6 +2,38 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
+const relationshipSchema = new Schema([
+  {
+    primaryFieldId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    foreignDbId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    foreignFieldId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    fieldsToDisplay: {
+      type: Array,
+      default: [],
+      required: true,
+    },
+    xCoordinate: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    yCoordinate: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  },
+]);
+
 const documentSchema = new Schema({
   fields: [
     {
@@ -37,6 +69,7 @@ const databaseSchema = new Schema({
     required: true,
   },
   documents: [documentSchema],
+  relationships: [relationshipSchema],
 });
 
 const userSchema = new Schema({
