@@ -45,5 +45,9 @@ router.post(
   "/:userid/databases/:databaseid/relationships",
   relationshipController.createRelationship,
 );
+router.get(
+  "/:userid/databases/:databaseid/relationships/:relationshipid",
+  relationshipController.getRelatedFields,
+);
 
 module.exports = router;
