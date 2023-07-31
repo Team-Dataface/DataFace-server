@@ -4,19 +4,19 @@ const { Schema } = mongoose;
 
 const relationshipSchema = new Schema([
   {
-    primaryFieldId: {
-      type: Schema.Types.ObjectId,
+    primaryFieldName: {
+      type: String,
       required: true,
     },
     foreignDbId: {
       type: Schema.Types.ObjectId,
       required: true,
     },
-    foreignFieldId: {
-      type: Schema.Types.ObjectId,
+    foreignFieldName: {
+      type: String,
       required: true,
     },
-    fieldsToDisplay: {
+    foreignFieldsToDisplay: {
       type: Array,
       default: [],
       required: true,
@@ -30,6 +30,11 @@ const relationshipSchema = new Schema([
       type: Number,
       required: true,
       default: 0,
+    },
+    portalSize: {
+      type: Number,
+      required: true,
+      default: 150,
     },
   },
 ]);
