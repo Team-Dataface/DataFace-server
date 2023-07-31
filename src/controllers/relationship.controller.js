@@ -32,7 +32,6 @@ exports.createRelationship = async function (req, res, next) {
   }
 };
 
-// /:userid/databases/:databaseid/relationships/:relationshipid?primaryFieldValue=_____
 exports.getRelatedFields = async function (req, res, next) {
   const userId = req.params.userid;
   const databaseId = req.params.databaseid;
