@@ -41,10 +41,15 @@ router.delete(
   documentController.deleteDocument,
 );
 
+router.get(
+  "/:userid/databases/:databaseid/relationships",
+  relationshipController.getAllRelationships,
+);
 router.post(
   "/:userid/databases/:databaseid/relationships",
   relationshipController.createRelationship,
 );
+
 router.get(
   "/:userid/databases/:databaseid/relationships/:relationshipid",
   relationshipController.getRelatedFields,
