@@ -1,6 +1,40 @@
 /* eslint-disable consistent-return */
 const User = require("../models/User");
 
+exports.getAllRelationships = async function (req, res, next) {
+  const userId = req.params.userid;
+  const databaseId = req.params.databaseid;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const database = user.databases.id(databaseId);
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    const relationship = database.relationships;
+
+    if (!relationship) {
+      return res.status(404).json({ error: "Relationship Not Found" });
+    }
+
+    const foreignDatabases = relationship.map((relation) => {
+      return user.databases.id(relation.foreignDbId);
+    });
+
+    res.status(200).json({ foreignDatabases });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to get related databases" });
+  }
+};
+
 exports.createRelationship = async function (req, res, next) {
   const userId = req.params.userid;
   const databaseId = req.params.databaseid;
@@ -79,7 +113,7 @@ exports.getRelatedFields = async function (req, res, next) {
       return { fields: displayedFields };
     });
 
-    res.json({ displayedDocuments });
+    res.status(200).json({ displayedDocuments });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to get related fields" });
