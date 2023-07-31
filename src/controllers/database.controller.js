@@ -98,7 +98,10 @@ exports.deleteDatabase = async function (req, res, next) {
 
     await user.save();
 
-    res.status(200).json("Database and subdocuments deleted successfully");
+    res.status(200).json({
+      success: "Database and subdocuments deleted successfully",
+      databases: user.databases,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to delete database" });
