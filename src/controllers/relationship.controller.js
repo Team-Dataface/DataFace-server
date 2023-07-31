@@ -72,18 +72,11 @@ exports.getRelatedFields = async function (req, res, next) {
       return !!relatedFields.length;
     });
 
-    const displayedDocuments = [];
-
-    relatedDocuments.forEach((document) => {
-      const displayedFields = [];
-
-      document.fields.forEach((field) => {
-        if (foreignFieldsToDisplay.includes(field.fieldName)) {
-          displayedFields.push(field);
-        }
-      });
-
-      displayedDocuments.push({ fields: displayedFields });
+    const displayedDocuments = relatedDocuments.map((document) => {
+      const displayedFields = document.fields.filter((field) =>
+        foreignFieldsToDisplay.includes(field.fieldName),
+      );
+      return { fields: displayedFields };
     });
 
     res.json({ displayedDocuments });
