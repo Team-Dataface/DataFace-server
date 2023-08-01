@@ -49,6 +49,10 @@ router.post(
   "/:userid/databases/:databaseid/relationships",
   relationshipController.createRelationship,
 );
+router.put(
+  "/:userid/databases/:databaseid/relationships",
+  relationshipController.editRelationship,
+);
 
 router.get(
   "/:userid/databases/:databaseid/relationships/:relationshipid",
