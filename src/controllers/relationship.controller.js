@@ -66,6 +66,41 @@ exports.createRelationship = async function (req, res, next) {
   }
 };
 
+exports.editRelationship = async function (req, res, next) {
+  const userId = req.params.userid;
+  const databaseId = req.params.databaseid;
+  const editedRelationships = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const database = user.databases.id(databaseId);
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    const { relationships } = database;
+
+    relationships.forEach((element, index) => {
+      element.xCoordinate = editedRelationships[index].xCoordinate;
+      element.yCoordinate = editedRelationships[index].yCoordinate;
+      element.portalSize = editedRelationships[index].portalSize;
+    });
+
+    await user.save();
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to edit relationship" });
+  }
+};
+
 exports.getRelatedFields = async function (req, res, next) {
   const userId = req.params.userid;
   const databaseId = req.params.databaseid;
