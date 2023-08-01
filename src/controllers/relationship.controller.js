@@ -119,3 +119,32 @@ exports.getRelatedFields = async function (req, res, next) {
     res.status(500).json({ error: "Failed to get related fields" });
   }
 };
+
+exports.deleteRelationship = async function (req, res, next) {
+  const userId = req.params.userid;
+  const databaseId = req.params.databaseid;
+  const relationshipId = req.params.relationshipid;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User Not Found" });
+    }
+
+    const database = user.databases.id(databaseId);
+
+    if (!database) {
+      return res.status(404).json({ error: "Database Not Found" });
+    }
+
+    database.relationships.pull(relationshipId);
+
+    await user.save();
+
+    res.status(200).json("Relationship deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete relationship" });
+  }
+};

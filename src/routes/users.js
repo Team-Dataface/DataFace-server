@@ -54,5 +54,9 @@ router.get(
   "/:userid/databases/:databaseid/relationships/:relationshipid",
   relationshipController.getRelatedFields,
 );
+router.delete(
+  "/:userid/databases/:databaseid/relationships/:relationshipid",
+  relationshipController.deleteRelationship,
+);
 
 module.exports = router;
