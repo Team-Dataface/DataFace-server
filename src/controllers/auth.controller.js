@@ -48,6 +48,8 @@ exports.login = async function (req, res, next) {
       .cookie("AccessToken", accessToken, {
         maxAge: CONFIG.ONE_HOUR_IN_MS,
         httpOnly: true,
+        secure: true,
+        sameSite: "None",
       })
       .json({ success: true, userInfo });
   } catch (error) {
