@@ -4,6 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
+  ignorePatterns: ["setup.js", "*.spec.js"],
   extends: ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
   overrides: [
     {
