@@ -22,7 +22,7 @@ exports.getAllDatabases = async function (req, res, next) {
 
 exports.createDatabase = async function (req, res, next) {
   const userId = req.params.userid;
-  const { dbName, fields } = req.body;
+  const { DBName, fields } = req.body;
 
   try {
     const user = await User.findById(userId);
@@ -41,7 +41,7 @@ exports.createDatabase = async function (req, res, next) {
     );
 
     const newDatabase = await user.databases.create({
-      name: dbName,
+      name: DBName,
       documents: [
         {
           fields: fieldsArray,
