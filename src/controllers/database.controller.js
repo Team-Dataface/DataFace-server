@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 const User = require("../models/User");
+const { getTodaysDate } = require("../utils/getTodaysDate");
 
 exports.getAllDatabases = async function (req, res, next) {
   const userId = req.params.userid;
@@ -31,14 +32,23 @@ exports.createDatabase = async function (req, res, next) {
       return res.status(404).json({ error: "User Not Found" });
     }
 
-    const fieldsArray = fields.map(
-      ({ fieldName, fieldType, fieldValue }, index) => ({
-        fieldName,
-        fieldType,
-        fieldValue,
+    const fieldsArray = fields.map((field, index) => {
+      if (
+        field.fieldType === "Date created" ||
+        field.fieldType === "Date modified"
+      ) {
+        return {
+          ...field,
+          fieldValue: getTodaysDate(),
+          yCoordinate: index * 40,
+        };
+      }
+
+      return {
+        ...field,
         yCoordinate: index * 40,
-      }),
-    );
+      };
+    });
 
     const newDatabase = await user.databases.create({
       name: DBName,
