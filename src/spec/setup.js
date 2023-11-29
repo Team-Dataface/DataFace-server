@@ -15,8 +15,8 @@ module.exports = {
     });
 
     afterAll(async () => {
-      await connection.close();
       await db.collection("test").deleteMany({});
+      await connection.close();
     });
   },
 };
